@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
 import { MovieQuote } from "../../models/movie-quote";
+import { QuoteDetailPage } from "../quote-detail/quote-detail";
 
 @IonicPage()
 @Component({
@@ -57,5 +58,9 @@ export class ListPage {
 
   removeQuote(key: string): void {
     this.movieQuotesStream.remove(key);
+  }
+
+  editQuote(movieQuote: MovieQuote): void {
+    this.navCtrl.push(QuoteDetailPage, { key: movieQuote.$key });
   }
 }

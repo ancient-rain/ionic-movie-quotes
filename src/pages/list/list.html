@@ -12,7 +12,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item-sliding *ngFor="let movieQuote of movieQuotesStream | async | reverse">
-      <button ion-item>
+      <button ion-item (click)="editQuote(movieQuote)">
         <h2>{{ movieQuote.quote }}</h2>
         <p>{{ movieQuote.movie }}</p>
       </button>
