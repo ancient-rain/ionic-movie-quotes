@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
 import { MovieQuote } from "../../models/movie-quote";
-
-/**
- * Generated class for the ListPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -19,7 +12,7 @@ export class ListPage {
   movieQuotesStream: FirebaseListObservable<MovieQuote[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private db: AngularFireDatabase) {
+    private db: AngularFireDatabase, public alertCtrl: AlertController) {
       this.movieQuotesStream = this.db.list('quotes');
   }
 
@@ -27,4 +20,38 @@ export class ListPage {
     console.log('ionViewDidLoad ListPage');
   }
 
+  showAddQuoteDialog(): void {
+    const prompt = this.alertCtrl.create({
+      title: 'Add Quote',
+      inputs: [
+        {
+          name: 'quote',
+          placeholder: 'Quote'
+        },
+        {
+          name: 'movie',
+          placeholder: 'Movie'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: (data) => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Add Quote',
+          handler: (data) => {
+            if (data.quote && data.movie) {
+              this.movieQuotesStream.push(data);
+            } else {
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }
