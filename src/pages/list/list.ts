@@ -54,4 +54,8 @@ export class ListPage {
     });
     prompt.present();
   }
+
+  removeQuote(key: string): void {
+    this.movieQuotesStream.remove(key);
+  }
 }
